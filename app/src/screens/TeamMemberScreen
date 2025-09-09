@@ -1,0 +1,71 @@
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+
+export default function TeamMemberScreen() {
+  const [userInput, setUserInput] = useState('');
+  const [aiResponse, setAIResponse] = useState('');
+
+  const mockAIReply = (input) => {
+    // Simulate AI logic based on keywords
+    if (input.toLowerCase().includes('api')) {
+      return 'To integrate an API, use axios or fetch. Need help with headers or auth?';
+    } else if (input.toLowerCase().includes('bug')) {
+      return 'Try isolating the bug with console logs and check component lifecycle.';
+    } else if (input.toLowerCase().includes('optimize')) {
+      return 'Consider memoization with useMemo or useCallback for performance.';
+    } else {
+      return 'I’m here to help! Ask me about coding, debugging, or best practices.';
+    }
+  };
+
+  const handleAskAI = () => {
+    const reply = mockAIReply(userInput);
+    setAIResponse(reply);
+  };
+
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>👨‍💻 Team Member AI</Text>
+      <Text style={styles.subtitle}>Ask me anything about coding or tasks:</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="e.g. How do I optimize my React list?"
+        placeholderTextColor="#888"
+        value={userInput}
+        onChangeText={setUserInput}
+      />
+
+      <Button title="Ask AI" onPress={handleAskAI} color="#3AB4FF" />
+
+      {aiResponse !== '' && (
+        <View style={styles.responseBox}>
+          <Text style={styles.responseLabel}>AI Response:</Text>
+          <Text style={styles.responseText}>{aiResponse}</Text>
+        </View>
+      )}
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#050510', padding: 20 },
+  title: { fontSize: 22, color: '#3AB4FF', fontWeight: 'bold', marginBottom: 10 },
+  subtitle: { fontSize: 16, color: '#ccc', marginBottom: 20 },
+  input: {
+    borderWidth: 1,
+    borderColor: '#3AB4FF',
+    borderRadius: 8,
+    padding: 10,
+    color: '#fff',
+    marginBottom: 10,
+  },
+  responseBox: {
+    marginTop: 20,
+    backgroundColor: '#1a1a1a',
+    padding: 15,
+    borderRadius: 8,
+  },
+  responseLabel: { color: '#3AB4FF', fontWeight: 'bold', marginBottom: 5 },
+  responseText: { color: '#fff', fontSize: 16 },
+});
